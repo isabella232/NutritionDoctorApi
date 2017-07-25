@@ -44,16 +44,16 @@ namespace NutritionDoctorApi.Controllers
             info.nutrition.sugar = "1.74g";
 
             UserFoodData otherInfo = new UserFoodData();
-            info.foodName = "Kung Pao Chicken";
-            info.userId = "lilian";
-            info.imageUrl = "https://pinganhackfest2017.blob.core.windows.net/kung-pao/thumb_275%20(1).jpeg";
-            info.nutrition = new FoodFacts();
-            info.nutrition.fat = "2.80g";
-            info.nutrition.protein = "6.76g";
-            info.nutrition.carbohydrate = "8.29g";
-            info.nutrition.calories = "85kcal";
-            info.nutrition.fiber = "1.0g";
-            info.nutrition.sugar = "1.74g";
+            otherInfo.foodName = "Kung Pao Chicken";
+            otherInfo.userId = "lilian";
+            otherInfo.imageUrl = "https://pinganhackfest2017.blob.core.windows.net/kung-pao/thumb_275%20(1).jpeg";
+            otherInfo.nutrition = new FoodFacts();
+            otherInfo.nutrition.fat = "2.80g";
+            otherInfo.nutrition.protein = "6.76g";
+            otherInfo.nutrition.carbohydrate = "8.29g";
+            otherInfo.nutrition.calories = "85kcal";
+            otherInfo.nutrition.fiber = "1.0g";
+            otherInfo.nutrition.sugar = "1.74g";
 
             UserFoodData[] results= { info, otherInfo };
             return JsonConvert.SerializeObject(results);
