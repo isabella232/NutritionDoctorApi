@@ -16,7 +16,7 @@ namespace NutritionDoctorApi.Controllers
     {
         // GET api/user/identify
         [HttpGet]
-        public IEnumerable<string> Get([FromBody] string data)
+        public IEnumerable<string> Get(string data)
 
         {
             UserFoodData info = new UserFoodData();
