@@ -7,6 +7,7 @@ using NutritionDoctorApi.Model;
 using NutritionDoctorApi.Services;
 using System.Net;
 using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace NutritionDoctorApi.Controllers
 {
@@ -15,14 +16,27 @@ namespace NutritionDoctorApi.Controllers
     {
         // GET api/user/identify
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<string> Get([FromBody] string data)
+
         {
-            return new string[] { "value1", "value2" };
+            UserFoodData info = new UserFoodData();
+            info.foodName = "Chicken Chow Mein";
+            info.userId = "lilian";
+            info.imageUrl = "https://pinganhackfest2017.blob.core.windows.net/chow-mein/thumb_275%20(1).jpeg";
+            info.nutrition = new FoodFacts();
+            info.nutrition.fat = "2.80g";
+            info.nutrition.protein = "6.76g";
+            info.nutrition.carbohydrate = "8.29g";
+            info.nutrition.calories = "85kcal";
+            info.nutrition.fiber = "1.0g";
+            info.nutrition.sugar = "1.74g";
+
+            yield return JsonConvert.SerializeObject(info);
         }
 
         // GET api/user/identify/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{userId}")]
+        public string Get(int userId)
         {
             return "value";
         }
