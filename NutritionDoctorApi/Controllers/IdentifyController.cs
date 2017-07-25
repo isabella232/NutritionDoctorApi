@@ -16,9 +16,21 @@ namespace NutritionDoctorApi.Controllers
     {
         // GET api/user/identify/5
         [HttpGet("{userId}")]
-        public IEnumerable<string> Get(string data)
-
+        public string Get(string data)
         {
+            //var connString = "Database=pingandb;Data Source=us-cdbr-azure-east-c.cloudapp.net;User Id=b8639718fe5ad6;Password=2cd7b667";
+            //var mySqlConnection = new MySql.Data.MySqlClient.MySqlConnection(connString);
+
+            //try
+            //{
+            //    mySqlConnection.Open();
+            //    mySqlConnection.Close();
+            //}
+            //catch (MySql.Data.MySqlClient.MySqlException ex)
+            //{
+            //    log.Info("Error connection to database:" + ex);
+            //}
+
             UserFoodData info = new UserFoodData();
             info.foodName = "Chicken Chow Mein";
             info.userId = "lilian";
@@ -44,7 +56,7 @@ namespace NutritionDoctorApi.Controllers
             info.nutrition.sugar = "1.74g";
 
             UserFoodData[] results= { info, otherInfo };
-            yield return JsonConvert.SerializeObject(results);
+            return JsonConvert.SerializeObject(results);
         }
 
         // POST api/user/identify
