@@ -23,6 +23,8 @@ namespace NutritionDoctorApi.Services
                new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(
                "pinganmlfunctio8acb",
                "6UFsmsghPNzORtfLqcmFiDbj98pbU1Jjbus/m2V15OS6VrfG+MxLK9yxafpuFqoztutBvJrHGEphF8tsYHdN2A=="), true);
+
+            blobClient = storageAccount.CreateCloudBlobClient();
         }
 
         public async Task<string> UploadImageToBlob(string userId, string imageData)
