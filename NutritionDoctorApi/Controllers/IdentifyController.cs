@@ -16,7 +16,7 @@ namespace NutritionDoctorApi.Controllers
     {
         // GET api/user/identify/5
         [HttpGet("{userId}")]
-        public string Get(string data)
+        public IEnumerable<string> Get(string data)
 
         {
             UserFoodData info = new UserFoodData();
@@ -31,7 +31,7 @@ namespace NutritionDoctorApi.Controllers
             info.nutrition.fiber = "1.0g";
             info.nutrition.sugar = "1.74g";
 
-            return JsonConvert.SerializeObject(info);
+            yield return JsonConvert.SerializeObject(info);
         }
 
         // POST api/user/identify
