@@ -31,7 +31,20 @@ namespace NutritionDoctorApi.Controllers
             info.nutrition.fiber = "1.0g";
             info.nutrition.sugar = "1.74g";
 
-            yield return JsonConvert.SerializeObject(info);
+            UserFoodData otherInfo = new UserFoodData();
+            info.foodName = "Kung Pao Chicken";
+            info.userId = "lilian";
+            info.imageUrl = "https://pinganhackfest2017.blob.core.windows.net/kung-pao/thumb_275%20(1).jpeg";
+            info.nutrition = new FoodFacts();
+            info.nutrition.fat = "2.80g";
+            info.nutrition.protein = "6.76g";
+            info.nutrition.carbohydrate = "8.29g";
+            info.nutrition.calories = "85kcal";
+            info.nutrition.fiber = "1.0g";
+            info.nutrition.sugar = "1.74g";
+
+            UserFoodData[] results= { info, otherInfo };
+            yield return JsonConvert.SerializeObject(results);
         }
 
         // POST api/user/identify
