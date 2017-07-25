@@ -14,8 +14,8 @@ namespace NutritionDoctorApi.Controllers
     [Route("api/user/[controller]")]
     public class IdentifyController : Controller
     {
-        // GET api/user/identify
-        [HttpGet]
+        // GET api/user/identify/5
+        [HttpGet("{userId}")]
         public IEnumerable<string> Get(string data)
 
         {
@@ -32,13 +32,6 @@ namespace NutritionDoctorApi.Controllers
             info.nutrition.sugar = "1.74g";
 
             yield return JsonConvert.SerializeObject(info);
-        }
-
-        // GET api/user/identify/5
-        [HttpGet("{userId}")]
-        public string Get(int userId)
-        {
-            return "value";
         }
 
         // POST api/user/identify
