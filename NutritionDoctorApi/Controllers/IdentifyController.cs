@@ -25,7 +25,6 @@ namespace NutritionDoctorApi.Controllers
             try
             {
                 MySqlConnection.Open();
-                MySqlConnection.Close();
             }
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
@@ -37,6 +36,13 @@ namespace NutritionDoctorApi.Controllers
             MySql.Data.MySqlClient.MySqlDataReader SqlReader = Command.ExecuteReader();
             List<UserFoodData> results = new List<UserFoodData>();
             var TestFoodFacts = new FoodFacts();
+            TestFoodFacts = new FoodFacts();
+            TestFoodFacts.fat = "2.80g";
+            TestFoodFacts.protein = "6.76g";
+            TestFoodFacts.carbohydrate = "8.29g";
+            TestFoodFacts.calories = "85kcal";
+            TestFoodFacts.fiber = "1.0g";
+            TestFoodFacts.sugar = "1.74g";
             while (SqlReader.Read())
             {
                 var userFoodInfo = new UserFoodData();
@@ -47,13 +53,7 @@ namespace NutritionDoctorApi.Controllers
                 results.Add(userFoodInfo);
             }
             SqlReader.Close();
-            TestFoodFacts = new FoodFacts();
-            TestFoodFacts.fat = "2.80g";
-            TestFoodFacts.protein = "6.76g";
-            TestFoodFacts.carbohydrate = "8.29g";
-            TestFoodFacts.calories = "85kcal";
-            TestFoodFacts.fiber = "1.0g";
-            TestFoodFacts.sugar = "1.74g";
+            MySqlConnection.Close();
 
             return JsonConvert.SerializeObject(results);
         }
