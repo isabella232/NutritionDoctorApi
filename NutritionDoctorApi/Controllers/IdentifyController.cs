@@ -64,7 +64,7 @@ namespace NutritionDoctorApi.Controllers
         {
             BlobService blobService = new BlobService();
             string imageBlobUri = await blobService.UploadImageToBlob(request.userId, request.imageData);
-
+            await blobService.AddJobToQueue(request.userId, imageBlobUri);
             return new HttpResponseMessage(HttpStatusCode.Created);
         }
     }
