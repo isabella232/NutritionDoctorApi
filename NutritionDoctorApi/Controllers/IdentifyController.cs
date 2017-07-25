@@ -8,6 +8,7 @@ using NutritionDoctorApi.Services;
 using System.Net;
 using System.Net.Http;
 using Newtonsoft.Json;
+using MySql.Data;
 
 namespace NutritionDoctorApi.Controllers
 {
@@ -18,44 +19,42 @@ namespace NutritionDoctorApi.Controllers
         [HttpGet("{userId}")]
         public string Get(string data)
         {
-            //var connString = "Database=pingandb;Data Source=us-cdbr-azure-east-c.cloudapp.net;User Id=b8639718fe5ad6;Password=2cd7b667";
-            //var mySqlConnection = new MySql.Data.MySqlClient.MySqlConnection(connString);
+            var ConnString = "database=pingandb;data source=us-cdbr-azure-east-c.cloudapp.net;user id=b8639718fe5ad6;password=2cd7b667";
+            var MySqlConnection = new MySql.Data.MySqlClient.MySqlConnection(ConnString);
 
-            //try
-            //{
-            //    mySqlConnection.Open();
-            //    mySqlConnection.Close();
-            //}
-            //catch (MySql.Data.MySqlClient.MySqlException ex)
-            //{
-            //    log.Info("Error connection to database:" + ex);
-            //}
+            try
+            {
+                MySqlConnection.Open();
+                MySqlConnection.Close();
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                return "error connecting to database:" + ex;
+            }
 
-            UserFoodData info = new UserFoodData();
-            info.foodName = "Chicken Chow Mein";
-            info.userId = "lilian";
-            info.imageUrl = "https://pinganhackfest2017.blob.core.windows.net/chow-mein/thumb_275%20(1).jpeg";
-            info.nutrition = new FoodFacts();
-            info.nutrition.fat = "2.80g";
-            info.nutrition.protein = "6.76g";
-            info.nutrition.carbohydrate = "8.29g";
-            info.nutrition.calories = "85kcal";
-            info.nutrition.fiber = "1.0g";
-            info.nutrition.sugar = "1.74g";
+            var SqlQuery = "SELECT * FROM user_food_tbl";
+            MySql.Data.MySqlClient.MySqlCommand Command = new MySql.Data.MySqlClient.MySqlCommand(SqlQuery, MySqlConnection);
+            MySql.Data.MySqlClient.MySqlDataReader SqlReader = Command.ExecuteReader();
+            List<UserFoodData> results = new List<UserFoodData>();
+            var TestFoodFacts = new FoodFacts();
+            while (SqlReader.Read())
+            {
+                var userFoodInfo = new UserFoodData();
+                userFoodInfo.foodName = (string) SqlReader[4];
+                userFoodInfo.userId = (string)SqlReader[2];
+                userFoodInfo.imageUrl = (string)SqlReader[3];
+                userFoodInfo.nutrition = TestFoodFacts;
+                results.Add(userFoodInfo);
+            }
+            SqlReader.Close();
+            TestFoodFacts = new FoodFacts();
+            TestFoodFacts.fat = "2.80g";
+            TestFoodFacts.protein = "6.76g";
+            TestFoodFacts.carbohydrate = "8.29g";
+            TestFoodFacts.calories = "85kcal";
+            TestFoodFacts.fiber = "1.0g";
+            TestFoodFacts.sugar = "1.74g";
 
-            UserFoodData otherInfo = new UserFoodData();
-            otherInfo.foodName = "Kung Pao Chicken";
-            otherInfo.userId = "lilian";
-            otherInfo.imageUrl = "https://pinganhackfest2017.blob.core.windows.net/kung-pao/thumb_275%20(1).jpeg";
-            otherInfo.nutrition = new FoodFacts();
-            otherInfo.nutrition.fat = "2.80g";
-            otherInfo.nutrition.protein = "6.76g";
-            otherInfo.nutrition.carbohydrate = "8.29g";
-            otherInfo.nutrition.calories = "85kcal";
-            otherInfo.nutrition.fiber = "1.0g";
-            otherInfo.nutrition.sugar = "1.74g";
-
-            UserFoodData[] results= { info, otherInfo };
             return JsonConvert.SerializeObject(results);
         }
 
