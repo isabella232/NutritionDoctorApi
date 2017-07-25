@@ -58,7 +58,7 @@ namespace NutritionDoctorApi.Services
             await queue.CreateIfNotExistsAsync();
 
             // Create a message and add it to the queue.
-            CloudQueueMessage message = new CloudQueueMessage("{\"userId\" : \"" + userId + "\", \"imageUrl\" : \"" + imageUrl + "\"");
+            CloudQueueMessage message = new CloudQueueMessage("{\"UserId\" : \"" + userId + "\", \"ImageUrl\" : \"" + imageUrl + "\"}");
             await queue.AddMessageAsync(message);
         }
     }
