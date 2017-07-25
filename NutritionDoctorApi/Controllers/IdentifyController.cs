@@ -31,8 +31,10 @@ namespace NutritionDoctorApi.Controllers
                 return "error connecting to database:" + ex;
             }
 
-            var SqlQuery = "SELECT * FROM user_food_tbl";
-            MySql.Data.MySqlClient.MySqlCommand Command = new MySql.Data.MySqlClient.MySqlCommand(SqlQuery, MySqlConnection);
+            var UserSqlQuery = "SELECT user.DETECTED_FOOD, user.PHOTO_URL FROM user_food_tbl as user WHERE user_id = \"_userId\" AND DETECTED_FOOD_SOURCE = \"AzureMachineLearning\"";
+            var FoodFactsSqlQuery = "select * from food_facts_tbl as facts where facts.FOOD_NAME = \"_foodName\"";
+            MySql.Data.MySqlClient.MySqlCommand Command = new MySql.Data.MySqlClient.MySqlCommand(UserSqlQuery, MySqlConnection);
+            Command.Parameters.AddWithValue("_userId", data);
             MySql.Data.MySqlClient.MySqlDataReader SqlReader = Command.ExecuteReader();
             List<UserFoodData> results = new List<UserFoodData>();
             var TestFoodFacts = new FoodFacts();
@@ -46,13 +48,26 @@ namespace NutritionDoctorApi.Controllers
             while (SqlReader.Read())
             {
                 var userFoodInfo = new UserFoodData();
-                userFoodInfo.foodName = (string) SqlReader[4];
-                userFoodInfo.userId = (string)SqlReader[2];
-                userFoodInfo.imageUrl = (string)SqlReader[3];
-                userFoodInfo.nutrition = TestFoodFacts;
+                userFoodInfo.foodName = (string) SqlReader[1];
+                userFoodInfo.userId = (string)data;
+                userFoodInfo.imageUrl = (string)SqlReader[2];
                 results.Add(userFoodInfo);
             }
             SqlReader.Close();
+
+            foreach (var item in results)
+            {
+                Command.CommandText = FoodFactsSqlQuery;
+                //MySql.Data.MySqlClient.MySqlCommand FoodFactCommand = new MySql.Data.MySqlClient.MySqlCommand(FoodFactsSqlQuery, MySqlConnection);
+                Command.Parameters.AddWithValue("_foodName", item.foodName);
+                MySql.Data.MySqlClient.MySqlDataReader FoodFactReader = Command.ExecuteReader();
+                while (FoodFactReader.Read())
+                {
+
+                }
+                FoodFactReader.Close();
+
+            }
             MySqlConnection.Close();
 
             return JsonConvert.SerializeObject(results);
