@@ -35,6 +35,7 @@ namespace NutritionDoctorApi.Controllers
             MySql.Data.MySqlClient.MySqlCommand Command = new MySql.Data.MySqlClient.MySqlCommand(SqlQuery, MySqlConnection);
             MySql.Data.MySqlClient.MySqlDataReader SqlReader = Command.ExecuteReader();
             List<UserFoodData> results = new List<UserFoodData>();
+            /*
             var TestFoodFacts = new FoodFacts();
             TestFoodFacts = new FoodFacts();
             TestFoodFacts.fat = "2.80g";
@@ -43,13 +44,14 @@ namespace NutritionDoctorApi.Controllers
             TestFoodFacts.calories = "85kcal";
             TestFoodFacts.fiber = "1.0g";
             TestFoodFacts.sugar = "1.74g";
+            */
             while (SqlReader.Read())
             {
                 var userFoodInfo = new UserFoodData();
                 userFoodInfo.foodName = (string) SqlReader[4];
                 userFoodInfo.userId = (string)SqlReader[2];
                 userFoodInfo.imageUrl = (string)SqlReader[3];
-                userFoodInfo.nutrition = TestFoodFacts;
+                //userFoodInfo.nutrition = TestFoodFacts;
                 results.Add(userFoodInfo);
             }
             SqlReader.Close();

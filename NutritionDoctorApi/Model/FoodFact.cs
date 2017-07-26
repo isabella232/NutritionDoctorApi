@@ -1,4 +1,10 @@
-﻿namespace NutritionDoctorApi.Model
+﻿using NutritionDoctorApi.Services;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Linq;
+
+namespace NutritionDoctorApi.Model
 {
     public struct FoodFact
     {
