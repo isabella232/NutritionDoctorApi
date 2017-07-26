@@ -60,7 +60,8 @@ namespace NutritionDoctorApi.Services
                     {
                         userId = await reader.GetFieldValueAsync<string>(1),
                         imageUrl = await reader.GetFieldValueAsync<string>(2),
-                        foodName = await reader.GetFieldValueAsync<string>(3)
+                        foodName = await reader.GetFieldValueAsync<string>(3),
+                        createdDateTime = await reader.GetFieldValueAsync<DateTime>(5),
                     };
                     result.Add(foodData);
                 }
