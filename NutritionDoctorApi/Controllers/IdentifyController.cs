@@ -15,59 +15,36 @@ namespace NutritionDoctorApi.Controllers
     [Route("api/user/[controller]")]
     public class IdentifyController : Controller
     {
+        Lazy<MySqlStore> _database = new Lazy<MySqlStore>(() => new MySqlStore());
+
+        private MySqlStore Database { get { return _database.Value; } }
+
         // GET api/user/identify/5
         [HttpGet("{userId}")]
-        public string Get(string data)
+        public async Task<IActionResult> GetAsync(string userId)
         {
-            var ConnString = "database=pingandb;data source=us-cdbr-azure-east-c.cloudapp.net;user id=b8639718fe5ad6;password=2cd7b667";
-            var MySqlConnection = new MySql.Data.MySqlClient.MySqlConnection(ConnString);
-
-            try
+            if (String.IsNullOrEmpty(userId))
             {
-                MySqlConnection.Open();
-            }
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
-                return "error connecting to database:" + ex;
+                return BadRequest();
             }
 
-            var SqlQuery = "SELECT * FROM user_food_tbl";
-            MySql.Data.MySqlClient.MySqlCommand Command = new MySql.Data.MySqlClient.MySqlCommand(SqlQuery, MySqlConnection);
-            MySql.Data.MySqlClient.MySqlDataReader SqlReader = Command.ExecuteReader();
-            List<UserFoodData> results = new List<UserFoodData>();
-            /*
-            var TestFoodFacts = new FoodFacts();
-            TestFoodFacts = new FoodFacts();
-            TestFoodFacts.fat = "2.80g";
-            TestFoodFacts.protein = "6.76g";
-            TestFoodFacts.carbohydrate = "8.29g";
-            TestFoodFacts.calories = "85kcal";
-            TestFoodFacts.fiber = "1.0g";
-            TestFoodFacts.sugar = "1.74g";
-            */
-            while (SqlReader.Read())
+            var foodList = await Database.GetFoodByUserAsync(userId);
+            foreach (var foodItem in foodList)
             {
-                var userFoodInfo = new UserFoodData();
-                userFoodInfo.foodName = (string) SqlReader[4];
-                userFoodInfo.userId = (string)SqlReader[2];
-                userFoodInfo.imageUrl = (string)SqlReader[3];
-                //userFoodInfo.nutrition = TestFoodFacts;
-                results.Add(userFoodInfo);
+                foodItem.nutrition = await Database.GetFoodFactsAsync(foodItem.foodName);
             }
-            SqlReader.Close();
-            MySqlConnection.Close();
 
-            return JsonConvert.SerializeObject(results);
+            return Ok(foodList);
         }
 
         // POST api/user/identify
         [HttpPost]
-        public async Task<HttpResponseMessage> PostAsync([FromBody] IdentifyRequest request)
+        public async Task<IActionResult> PostAsync([FromBody] IdentifyRequest request)
         {
             BlobService blobService = new BlobService();
             string imageBlobUri = await blobService.UploadImageToBlob(request.userId, request.imageData);
             await blobService.AddJobToQueue(request.userId, imageBlobUri);
-            return new HttpResponseMessage(HttpStatusCode.Created);
+            return Ok();
         }
     }
 }

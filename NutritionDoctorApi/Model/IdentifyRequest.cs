@@ -7,6 +7,7 @@ namespace NutritionDoctorApi.Model
         public string userId { get; set; }
         public string imageData { get; set; }
     }
+
     public class UserFoodData
     {
         public string userId { get; set; }

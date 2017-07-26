@@ -15,10 +15,15 @@ namespace NutritionDoctorApi.Controllers
         private MySqlStore Database { get { return _database.Value; } }
 
         [HttpGet("{foodName}")]
-        public async Task<IList<FoodFact>> Get(string foodName)
+        public async Task<IActionResult> Get(string foodName)
         {
+            if (String.IsNullOrEmpty(foodName))
+            {
+                return BadRequest();
+            }
+
             var foodFacts = await Database.GetFoodFactsAsync(foodName);
-            return foodFacts;
+            return Ok(foodFacts);
         }
     }
 }
