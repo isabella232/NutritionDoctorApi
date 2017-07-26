@@ -13,6 +13,6 @@ namespace NutritionDoctorApi.Model
         public string userId { get; set; }
         public string imageUrl { get; set; }
         public string foodName { get; set; }
-        public IList<FoodFact> nutrition { get; set; }
+        public Nutrition nutrition { get; set; }
     }
 }

@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using NutritionDoctorApi.Model;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace NutritionDoctorApi.Services
 {
@@ -12,26 +14,33 @@ namespace NutritionDoctorApi.Services
         private const string FoodFactTable = "food_facts_tbl";
         private const string UserFoodTable = "user_food_tbl";
 
-        public async Task<IList<FoodFact>> GetFoodFactsAsync(string foodName)
+        public async Task<Nutrition> GetFoodFactsAsync(string foodName)
         {
             var sqlCommand = $"SELECT * FROM {FoodFactTable} WHERE FOOD_NAME = '{foodName}'";
 
-            Func<MySqlDataReader, Task<IList<FoodFact>>> func = async (reader) =>
+            Func<MySqlDataReader, Task<Nutrition>> func = async (reader) =>
             {
-                var result = new List<FoodFact>();
-
+                var nutrition = new Nutrition();
                 while (await reader.ReadAsync())
                 {
-                    var fact = new FoodFact
+                    var name = await reader.GetFieldValueAsync<string>(2);
+                    var value = await reader.GetFieldValueAsync<string>(3);
+                    var unit = await reader.GetFieldValueAsync<string>(4);
+
+                    var propName = Regex.Replace(name, @"\(.*?\)", string.Empty);
+                    propName = Regex.Replace(propName, @"\s+", string.Empty);
+
+                    Type type = nutrition.GetType();
+                    PropertyInfo prop = type.GetProperty(propName);
+                    prop?.SetValue(nutrition, new FoodFact { FactValue = value, FactUnit = unit });
+
+                    if (prop == null)
                     {
-                        FactName = await reader.GetFieldValueAsync<string>(2),
-                        FactValue = await reader.GetFieldValueAsync<string>(3),
-                        FactUnit = await reader.GetFieldValueAsync<string>(4)
-                    };
-                    result.Add(fact);
+                        Console.WriteLine($"Unable to parse {propName}");
+                    }
                 }
 
-                return result;
+                return nutrition;
             };
 
             return await ExecuteQueryAsync(sqlCommand, func);

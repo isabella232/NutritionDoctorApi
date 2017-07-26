@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NutritionDoctorApi.Model;
 using NutritionDoctorApi.Services;
-using System.Net;
-using System.Net.Http;
-using Newtonsoft.Json;
-using MySql.Data;
 
 namespace NutritionDoctorApi.Controllers
 {
