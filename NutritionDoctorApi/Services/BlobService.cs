@@ -8,12 +8,6 @@ namespace NutritionDoctorApi.Services
 {
     public class BlobService 
     {
-        /*
-         * 
-         *                "pinganhackfest2017",
-               "Hi7yuNxb67pBoSqwhHlnXRHnDcLyZmuVpbmc38vzA0j5HclHVIei66jIz+p7Qa9wobC8kUzBDFyI8LCe/842Ug=="), true);
-               */
-
         CloudBlobClient blobClient;
         CloudStorageAccount storageAccount;
 
@@ -48,16 +42,9 @@ namespace NutritionDoctorApi.Services
 
         public async Task AddJobToQueue(string userId, string imageUrl)
         {
-            // Create the queue client.
             CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
-
-            // Retrieve a reference to a queue.
             CloudQueue queue = queueClient.GetQueueReference("queue-identifyjob");
-
-            // Create the queue if it doesn't already exist.
             await queue.CreateIfNotExistsAsync();
-
-            // Create a message and add it to the queue.
             CloudQueueMessage message = new CloudQueueMessage("{\"UserId\" : \"" + userId + "\", \"ImageUrl\" : \"" + imageUrl + "\"}");
             await queue.AddMessageAsync(message);
         }
