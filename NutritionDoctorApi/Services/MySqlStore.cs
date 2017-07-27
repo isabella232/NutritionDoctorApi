@@ -43,7 +43,7 @@ namespace NutritionDoctorApi.Services
                 return nutrition;
             };
 
-            return await ExecuteQueryAsync(sqlCommand, func);
+            return await ExecuteQueryAsync(sqlCommand, func, true);
         }
 
         public async Task<IList<UserFoodData>> GetFoodByUserAsync(string userId)
@@ -72,11 +72,16 @@ namespace NutritionDoctorApi.Services
             return await ExecuteQueryAsync(sqlCommand, func);
         }
 
-        private async Task<T> ExecuteQueryAsync<T>(string sqlCommand, Func<MySqlDataReader, Task<T>> parseFunc)
+        private async Task<T> ExecuteQueryAsync<T>(string sqlCommand, Func<MySqlDataReader, Task<T>> parseFunc, bool tableCache = false)
         {
             T result = default(T);
             try
             {
+                if (tableCache)
+                {
+                    ConnectionString += ";table cache=true";
+                }
+
                 using (var connection = new MySqlConnection(ConnectionString))
                 using (var command = new MySqlCommand(sqlCommand, connection))
                 {

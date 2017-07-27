@@ -15,6 +15,7 @@ namespace NutritionDoctorApi.Controllers
         private MySqlStore Database { get { return _database.Value; } }
 
         [HttpGet("{foodName}")]
+        [ResponseCache(Duration = 3600)]
         public async Task<IActionResult> Get(string foodName)
         {
             if (String.IsNullOrEmpty(foodName))

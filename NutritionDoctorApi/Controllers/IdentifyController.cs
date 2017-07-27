@@ -13,8 +13,9 @@ namespace NutritionDoctorApi.Controllers
 
         private MySqlStore Database { get { return _database.Value; } }
 
-        // GET api/user/identify/5
+        // GET api/user/identify/{userId}
         [HttpGet("{userId}")]
+        [ResponseCache(Duration = 10)]
         public async Task<IActionResult> GetAsync(string userId)
         {
             if (String.IsNullOrEmpty(userId))
