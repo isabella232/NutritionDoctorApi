@@ -91,6 +91,8 @@ namespace NutritionDoctorApi.Services
                     {
                         result = await parseFunc(reader);
                     }
+                    
+                    connection.Close();
                 }
             }
             catch (Exception ex)
