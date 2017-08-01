@@ -5,14 +5,31 @@ using NutritionDoctorApi.Model;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace NutritionDoctorApi.Services
 {
     public class MySqlStore
     {
-        private string ConnectionString = "database=pingandb;data source=us-cdbr-azure-east-c.cloudapp.net;user id=b8639718fe5ad6;password=2cd7b667";
-        private const string FoodFactTable = "food_facts_tbl";
-        private const string UserFoodTable = "user_food_tbl";
+        public static IConfigurationRoot Configuration { get; set; }
+
+        private string ConnectionString = "";
+        private string FoodFactTable = "";
+        private string UserFoodTable = "";
+
+        public MySqlStore()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+            Configuration = builder.Build();
+
+            ConnectionString = $"{Configuration["mysql_connstring"]}";
+            FoodFactTable = $"{Configuration["mysql_foodtbl"]}";
+            UserFoodTable = $"{Configuration["mysql_usertbl"]}";
+        }
 
         public async Task<Nutrition> GetFoodFactsAsync(string foodName)
         {

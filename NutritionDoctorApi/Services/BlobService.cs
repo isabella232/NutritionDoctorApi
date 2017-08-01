@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
+using Microsoft.Extensions.Configuration;
 
 namespace NutritionDoctorApi.Services
 {
@@ -10,13 +12,19 @@ namespace NutritionDoctorApi.Services
     {
         CloudBlobClient blobClient;
         CloudStorageAccount storageAccount;
-
+        public static IConfigurationRoot Configuration { get; set; }
         public BlobService()
         {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+            Configuration = builder.Build();
+
             storageAccount = new CloudStorageAccount(
                new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(
-               "pinganmlfunctio8acb",
-               "6UFsmsghPNzORtfLqcmFiDbj98pbU1Jjbus/m2V15OS6VrfG+MxLK9yxafpuFqoztutBvJrHGEphF8tsYHdN2A=="), true);
+               $"{Configuration["storage_id"]}",
+               $"{Configuration["storage_key"]}"), true);
 
             blobClient = storageAccount.CreateCloudBlobClient();
         }
