@@ -12,7 +12,9 @@ namespace NutritionDoctorApi.Services
     {
         CloudBlobClient blobClient;
         CloudStorageAccount storageAccount;
+        
         public static IConfigurationRoot Configuration { get; set; }
+        
         public BlobService()
         {
             var builder = new ConfigurationBuilder()
