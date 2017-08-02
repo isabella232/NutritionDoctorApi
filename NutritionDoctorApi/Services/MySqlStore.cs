@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using NutritionDoctorApi.Model;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.Configuration;
-using System.IO;
+using System.Threading.Tasks;
 
 namespace NutritionDoctorApi.Services
 {

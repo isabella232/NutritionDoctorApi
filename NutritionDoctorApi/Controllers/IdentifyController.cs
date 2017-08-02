@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NutritionDoctorApi.Model;
 using NutritionDoctorApi.Services;
+using System;
+using System.Threading.Tasks;
 
 namespace NutritionDoctorApi.Controllers
 {
