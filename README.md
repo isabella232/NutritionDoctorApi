@@ -6,6 +6,8 @@ During the Microsoft One Week Hackathon, we [Microsoft] collaborated with Ping A
 
 ![architecture](docs/architecture.png)
 
+![call graph](docs/call_graph.png)
+
 Each component is separated into their own Git repository:
 
 * [Mobile Client](https://github.com/CatalystCode/NutritionDoctor)
@@ -14,6 +16,8 @@ Each component is separated into their own Git repository:
 * [Image Classifier](https://github.com/CatalystCode/NutritionDoctorImageClassifier)
 
 ## Getting Started
+
+The Web API is a stateless ASP.NET Core application that exposes two REST APIs and communicates with Azure Blob Storage (for image persistence), Azure Queue (for asynchronous image processing), and MySQL (for data persistence).
 
 1. `git clone git@github.com:CatalystCode/NutritionDoctorApi.git`
 2. Open `NutritionDoctorApi.sln` in Visual Studio 2017
