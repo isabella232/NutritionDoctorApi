@@ -10,10 +10,10 @@ During the Microsoft One Week Hackathon, we [Microsoft] collaborated with Ping A
 
 ![call graph](docs/call_graph.png)
 
-Each component is separated into their own Git repository:
+Each component is separated into its own Git repository:
 
 * [Mobile Client](https://github.com/CatalystCode/NutritionDoctor)
-* [Web Api](https://github.com/CatalystCode/NutritionDoctorApi)
+* [Web Api](https://github.com/CatalystCode/NutritionDoctorApi) 
 * [Functions](https://github.com/CatalystCode/NutritionDoctorFunctions)
 * [Image Classifier](https://github.com/CatalystCode/NutritionDoctorImageClassifier)
 
