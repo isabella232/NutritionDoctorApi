@@ -6,6 +6,8 @@ During the Microsoft One Week Hackathon, we [Microsoft] collaborated with Ping A
 
 ![architecture](docs/architecture.png)
 
+----
+
 ![call graph](docs/call_graph.png)
 
 Each component is separated into their own Git repository:
